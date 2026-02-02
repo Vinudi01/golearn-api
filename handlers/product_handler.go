@@ -111,6 +111,12 @@ func (h *ProductHandler) Update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	product.ID = id
+
+	if product.CategoryID == 0 {
+		http.Error(w, "category_id is required", http.StatusBadRequest)
+		return
+	}
+
 	err = h.service.Update(&product)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
