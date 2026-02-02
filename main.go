@@ -53,8 +53,13 @@ func main() {
 	http.HandleFunc("/api/produk", productHandler.HandleProducts)
 	http.HandleFunc("/api/produk/", productHandler.HandleProductByID)
 
+	categoryRepo := repositories.NewCategoryRepository(db)
+	categoryService := services.NewCategoryService(categoryRepo)
+	categoryHandler := handlers.NewCategoryHandler(categoryService)
+
 	//Endpoint localhost:8080/api/categories
-	//http.HandleFunc("/api/categories", getpostCategory)
+	http.HandleFunc("/api/categories", categoryHandler.HandleCategory)
+	http.HandleFunc("/api/categories/", categoryHandler.HandleCategoryByID)
 
 	//localhost:8088//health
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {

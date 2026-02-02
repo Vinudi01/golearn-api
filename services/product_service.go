@@ -5,6 +5,7 @@ import (
 	"kasirapi/repositories"
 )
 
+// Product
 type ProductService struct {
 	repo *repositories.ProductRepository
 }
@@ -30,5 +31,34 @@ func (s *ProductService) Update(product *models.Product) error {
 }
 
 func (s *ProductService) Delete(id int) error {
+	return s.repo.Delete(id)
+}
+
+// Category
+type CategoryService struct {
+	repo *repositories.CategoryRepository
+}
+
+func NewCategoryService(repo *repositories.CategoryRepository) *CategoryService {
+	return &CategoryService{repo: repo}
+}
+
+func (s *CategoryService) GetCategoryAll() ([]models.Category, error) {
+	return s.repo.GetCategoryAll()
+}
+
+func (s *CategoryService) Create(data *models.Category) error {
+	return s.repo.Create(data)
+}
+
+func (s *CategoryService) GetByID(id int) (*models.Category, error) {
+	return s.repo.GetByID(id)
+}
+
+func (s *CategoryService) Update(category *models.Category) error {
+	return s.repo.Update(category)
+}
+
+func (s *CategoryService) Delete(id int) error {
 	return s.repo.Delete(id)
 }
