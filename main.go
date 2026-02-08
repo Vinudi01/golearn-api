@@ -53,6 +53,7 @@ func main() {
 	http.HandleFunc("/api/produk", productHandler.HandleProducts)
 	http.HandleFunc("/api/produk/", productHandler.HandleProductByID)
 
+	//Category
 	categoryRepo := repositories.NewCategoryRepository(db)
 	categoryService := services.NewCategoryService(categoryRepo)
 	categoryHandler := handlers.NewCategoryHandler(categoryService)
@@ -60,6 +61,13 @@ func main() {
 	//Endpoint localhost:8080/api/categories
 	http.HandleFunc("/api/categories", categoryHandler.HandleCategory)
 	http.HandleFunc("/api/categories/", categoryHandler.HandleCategoryByID)
+
+	// Transaction
+	transactionRepo := repositories.NewTransactionRepository(db)
+	transactionService := services.NewTransactionService(transactionRepo)
+	transactionHandler := handlers.NewTransactionHandler(transactionService)
+
+	http.HandleFunc("/api/checkout", transactionHandler.HandleCheckout) // POST
 
 	//localhost:8088//health
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
